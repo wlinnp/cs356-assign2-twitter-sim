@@ -5,7 +5,9 @@ import edu.cpp.cs356.assign2.View.AdminView;
 import edu.cpp.cs356.assign2.Data.User;
 import edu.cpp.cs356.assign2.Data.UserComponent;
 import edu.cpp.cs356.assign2.Data.UserGroup;
+import edu.cpp.cs356.assign2.View.UserView;
 import java.util.Set;
+import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -103,8 +105,18 @@ public class TwitterController {
         return (null != ROOT.findUserWithName(user));
     }
     
-    public Set<Observer> followUser(final Object self, final String idol) {
+    public DefaultListModel getObservers(final Object user) {
+        DefaultListModel model = new DefaultListModel();
+        ((User)user).getObservers().forEach(each -> model.addElement(each));        
+        return model;
+    }
+    
+    public void followUser(final UserView userView, final Object self, final String idol) {
         ((User)self).attach((Observer)ROOT.findUserWithName(idol));
-        return ((User)self).getObservers();
+        userView.setObservers(getObservers(self));
+    }
+    
+    public void processTweet(final Object user, final String tweet) {
+        
     }
 }

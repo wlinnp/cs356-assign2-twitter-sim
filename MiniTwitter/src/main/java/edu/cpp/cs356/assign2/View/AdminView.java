@@ -246,7 +246,10 @@ public class AdminView extends javax.swing.JFrame {
 
     private void btnOpenUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenUserActionPerformed
         if (openUserActionValidations()) {
-            new UserView(((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject()).setVisible(true);
+            Object selected = ((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject();
+            UserView user = new UserView(selected);
+            user.setTitle(selected.toString());
+            user.setVisible(true);
         }
     }//GEN-LAST:event_btnOpenUserActionPerformed
 

@@ -1,14 +1,13 @@
 package edu.cpp.cs356.assign2.View;
 
 import edu.cpp.cs356.assign2.Controller.TwitterController;
-import java.util.ArrayList;
-import javax.swing.JList;
+import javax.swing.DefaultListModel;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author william
  */
-public class UserView extends javax.swing.JFrame {
+public final class UserView extends javax.swing.JFrame {
     private final Object user;
     /**
      * Creates new form User
@@ -18,6 +17,19 @@ public class UserView extends javax.swing.JFrame {
         this.user = user;
         System.out.println(user.toString());
         initComponents();
+        setObservers(TwitterController.getInstance().getObservers(user));
+    }
+    /**
+     * Set the followers list
+     * @param model includes all followers
+     */
+    public void setObservers(final DefaultListModel model) {
+        listObservers.setModel(model);
+        jscObservers.setViewportView(listObservers);
+    }
+    
+    public void setMessages() {
+        
     }
 
     /**
@@ -31,7 +43,7 @@ public class UserView extends javax.swing.JFrame {
 
         txtUser = new javax.swing.JTextField();
         btnFollowUser = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jscObservers = new javax.swing.JScrollPane();
         listObservers = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -48,12 +60,8 @@ public class UserView extends javax.swing.JFrame {
             }
         });
 
-        listObservers.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(listObservers);
+        listObservers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jscObservers.setViewportView(listObservers);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -80,7 +88,7 @@ public class UserView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jscObservers)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtUser)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -98,7 +106,7 @@ public class UserView extends javax.swing.JFrame {
                     .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFollowUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jscObservers, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -129,11 +137,16 @@ public class UserView extends javax.swing.JFrame {
     
     private void btnFollowUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFollowUserActionPerformed
         if (addActionValidations(txtUser.getText())) {
-            TwitterController.getInstance().followUser(this, txtUser.getText());
-            //listObservers = new JList(new ArrayList());
+            TwitterController.getInstance().followUser(this, user, txtUser.getText());            
         }
     }//GEN-LAST:event_btnFollowUserActionPerformed
-
+    private boolean postTweetActionValidations(final String input) {
+        if (StringUtils.isBlank(input)) {
+            Utils.showMsg("Error", "empty Tweet");
+            return false;
+        }
+        return true;
+    }
     private void btnPostTweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostTweetActionPerformed
         System.out.println("Post Tweet");
     }//GEN-LAST:event_btnPostTweetActionPerformed
@@ -142,10 +155,10 @@ public class UserView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFollowUser;
     private javax.swing.JButton btnPostTweet;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jscObservers;
     private javax.swing.JList<String> listMessages;
     private javax.swing.JList<String> listObservers;
     private javax.swing.JTextField txtUser;
