@@ -1,12 +1,12 @@
 package edu.cpp.cs356.assign2.Controller;
 
 import edu.cpp.cs356.assign2.Data.Observer;
+import edu.cpp.cs356.assign2.Data.Subject;
 import edu.cpp.cs356.assign2.View.AdminView;
 import edu.cpp.cs356.assign2.Data.User;
 import edu.cpp.cs356.assign2.Data.UserComponent;
 import edu.cpp.cs356.assign2.Data.UserGroup;
 import edu.cpp.cs356.assign2.View.UserView;
-import java.util.Set;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 
@@ -100,23 +100,32 @@ public class TwitterController {
     public boolean isUser(final Object user) {
         return user != null && user instanceof User;
     }
-    
+    /**
+     * Check user with that name exists
+     * @param user
+     * @return 
+     */
     public boolean hasUser(final String user) {
         return (null != ROOT.findUserWithName(user));
     }
     
     public DefaultListModel getObservers(final Object user) {
         DefaultListModel model = new DefaultListModel();
-        ((User)user).getObservers().forEach(each -> model.addElement(each));        
+        ((User)user).getFollowers().forEach(each -> model.addElement(each));        
         return model;
     }
     
     public void followUser(final UserView userView, final Object self, final String idol) {
-        ((User)self).attach((Observer)ROOT.findUserWithName(idol));
+        ((User)self).addFollower(ROOT.findUserWithName(idol));
+        ((Subject)ROOT.findUserWithName(idol)).attach((Observer)self);
         userView.setObservers(getObservers(self));
     }
     
     public void processTweet(final Object user, final String tweet) {
+        ((User)user).setMessage(tweet);
+    }
+    
+    public void updateTweet(final Object subject, final Object observer, final String msg) {
         
     }
 }

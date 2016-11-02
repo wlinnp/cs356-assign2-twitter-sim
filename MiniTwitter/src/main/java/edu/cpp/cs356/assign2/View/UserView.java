@@ -46,7 +46,7 @@ public final class UserView extends javax.swing.JFrame {
         jscObservers = new javax.swing.JScrollPane();
         listObservers = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtTweet = new javax.swing.JTextArea();
         btnPostTweet = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         listMessages = new javax.swing.JList<>();
@@ -63,9 +63,9 @@ public final class UserView extends javax.swing.JFrame {
         listObservers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jscObservers.setViewportView(listObservers);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txtTweet.setColumns(20);
+        txtTweet.setRows(5);
+        jScrollPane2.setViewportView(txtTweet);
 
         btnPostTweet.setText("Post Tweet");
         btnPostTweet.addActionListener(new java.awt.event.ActionListener() {
@@ -148,7 +148,9 @@ public final class UserView extends javax.swing.JFrame {
         return true;
     }
     private void btnPostTweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostTweetActionPerformed
-        System.out.println("Post Tweet");
+        if (postTweetActionValidations(txtTweet.getText())) {
+            TwitterController.getInstance().processTweet(user, txtTweet.getText());
+        }
     }//GEN-LAST:event_btnPostTweetActionPerformed
 
 
@@ -157,10 +159,10 @@ public final class UserView extends javax.swing.JFrame {
     private javax.swing.JButton btnPostTweet;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JScrollPane jscObservers;
     private javax.swing.JList<String> listMessages;
     private javax.swing.JList<String> listObservers;
+    private javax.swing.JTextArea txtTweet;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }
