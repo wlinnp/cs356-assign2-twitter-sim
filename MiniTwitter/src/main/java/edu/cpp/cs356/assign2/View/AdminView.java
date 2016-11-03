@@ -185,14 +185,14 @@ public class AdminView extends javax.swing.JFrame {
             Utils.showMsg("Error", "Text Field is empty");
             return false;
         } else {
-            return isTreeSelectionEmpty();
+            return isElementSelectedInTree();
         }
     }
     /**
      * 2. User must select the base group to add to
      * @return Validation Result
      */
-    private boolean isTreeSelectionEmpty() {
+    private boolean isElementSelectedInTree() {
         if (treeAllUsers.getLastSelectedPathComponent() == null) {
             Utils.showMsg("Error", "Parent User Group is not selected.");
             return false;
@@ -222,7 +222,7 @@ public class AdminView extends javax.swing.JFrame {
      * @return validation result
      */
     private boolean openUserActionValidations() {
-        if (isTreeSelectionEmpty()) {
+        if (isElementSelectedInTree()) {
             if (!TwitterController.getInstance().isUser(((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject())) {
                 Utils.showMsg("Error", "Invalid user selection.");
                 return false;
@@ -248,6 +248,7 @@ public class AdminView extends javax.swing.JFrame {
         if (openUserActionValidations()) {
             Object selected = ((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject();
             UserView user = new UserView(selected);
+            TwitterController.getInstance().addUserView(user);
             user.setTitle(selected.toString());
             user.setVisible(true);
         }

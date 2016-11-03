@@ -2,12 +2,12 @@ package edu.cpp.cs356.assign2.Data;
 
 import edu.cpp.cs356.assign2.Controller.TwitterController;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import javax.swing.tree.DefaultMutableTreeNode;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Leaf class of Composite Pattern 
@@ -68,20 +68,23 @@ public class User extends UserComponent implements Subject, Observer{
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Observer">
-    private final Map<String, String> msgBoard = new HashMap<>();
-    private static final String START_FOLLOWING = "started following you!";
+    private final List<Pair<String, String>> msgBoard = new ArrayList<>();
+    private static final String DEFAULT_MESSAGE = " says HI!";
     @Override
     public void update(Subject subject) {
         if (subject instanceof User) {
             User user = (User)subject;
             String msg = user.getLastMsg();
             if(msg == null) {
-                msg = START_FOLLOWING;
+                msg = DEFAULT_MESSAGE;
             }
-            msgBoard.put(user.toString(), msg);
+            msgBoard.add(new ImmutablePair(user.toString(), msg));
             System.out.println("Iam " + this.toString() + ". and my idol " + user.toString() + " posted this: " + msg);
-            TwitterController.getInstance().updateTweet(this, user, msg);
+            TwitterController.getInstance().updateTweet(this);
         }
+    }
+    public List<Pair<String, String>> getMessageBoard() {
+        return msgBoard;
     }
     // </editor-fold>
     

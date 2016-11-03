@@ -18,6 +18,7 @@ public final class UserView extends javax.swing.JFrame {
         System.out.println(user.toString());
         initComponents();
         setObservers(TwitterController.getInstance().getObservers(user));
+        setMessages(TwitterController.getInstance().getMsgBoard(user));
     }
     /**
      * Set the followers list
@@ -25,11 +26,12 @@ public final class UserView extends javax.swing.JFrame {
      */
     public void setObservers(final DefaultListModel model) {
         listObservers.setModel(model);
-        jscObservers.setViewportView(listObservers);
+        jScrollPaneObservers.setViewportView(listObservers);
     }
     
-    public void setMessages() {
-        
+    public void setMessages(final DefaultListModel model) {
+        listMessages.setModel(model);
+        jScrollPaneMessages.setViewportView(listMessages);
     }
 
     /**
@@ -43,15 +45,20 @@ public final class UserView extends javax.swing.JFrame {
 
         txtUser = new javax.swing.JTextField();
         btnFollowUser = new javax.swing.JButton();
-        jscObservers = new javax.swing.JScrollPane();
+        jScrollPaneObservers = new javax.swing.JScrollPane();
         listObservers = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtTweet = new javax.swing.JTextArea();
         btnPostTweet = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPaneMessages = new javax.swing.JScrollPane();
         listMessages = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         btnFollowUser.setText("Follow User");
         btnFollowUser.addActionListener(new java.awt.event.ActionListener() {
@@ -61,7 +68,7 @@ public final class UserView extends javax.swing.JFrame {
         });
 
         listObservers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jscObservers.setViewportView(listObservers);
+        jScrollPaneObservers.setViewportView(listObservers);
 
         txtTweet.setColumns(20);
         txtTweet.setRows(5);
@@ -79,7 +86,7 @@ public final class UserView extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane3.setViewportView(listMessages);
+        jScrollPaneMessages.setViewportView(listMessages);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,14 +95,14 @@ public final class UserView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jscObservers)
+                    .addComponent(jScrollPaneObservers)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtUser)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFollowUser, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                     .addComponent(btnPostTweet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3))
+                    .addComponent(jScrollPaneMessages))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -106,13 +113,13 @@ public final class UserView extends javax.swing.JFrame {
                     .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFollowUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jscObservers, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPaneObservers, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPostTweet)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPaneMessages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -153,13 +160,20 @@ public final class UserView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPostTweetActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        TwitterController.getInstance().removeUserView(this);
+    }//GEN-LAST:event_formWindowClosed
+
+    public String getName() {
+        return user.toString();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFollowUser;
     private javax.swing.JButton btnPostTweet;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jscObservers;
+    private javax.swing.JScrollPane jScrollPaneMessages;
+    private javax.swing.JScrollPane jScrollPaneObservers;
     private javax.swing.JList<String> listMessages;
     private javax.swing.JList<String> listObservers;
     private javax.swing.JTextArea txtTweet;

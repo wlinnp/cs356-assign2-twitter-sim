@@ -7,14 +7,18 @@ import edu.cpp.cs356.assign2.Data.User;
 import edu.cpp.cs356.assign2.Data.UserComponent;
 import edu.cpp.cs356.assign2.Data.UserGroup;
 import edu.cpp.cs356.assign2.View.UserView;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * @author william
  */
 public class TwitterController {
     private static TwitterController INSTANCE;
+    private static List<UserView> openedUserViews;
     
     /**
      * Singleton class 
@@ -23,6 +27,7 @@ public class TwitterController {
     public static TwitterController getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new TwitterController();
+            openedUserViews = new ArrayList<>();
         }
         return INSTANCE;
     }
@@ -115,6 +120,16 @@ public class TwitterController {
         return model;
     }
     
+    private String tweetTransformer(final Pair<String, String> each) {
+        return each.getLeft() + " tweeted " + each.getRight();
+    }
+    
+    public DefaultListModel getMsgBoard(final Object user) {
+        DefaultListModel model = new DefaultListModel();
+        ((User)user).getMessageBoard().forEach(each -> model.addElement(tweetTransformer(each)));        
+        return model;
+    }
+    
     public void followUser(final UserView userView, final Object self, final String idol) {
         ((User)self).addFollower(ROOT.findUserWithName(idol));
         ((Subject)ROOT.findUserWithName(idol)).attach((Observer)self);
@@ -125,7 +140,20 @@ public class TwitterController {
         ((User)user).setMessage(tweet);
     }
     
-    public void updateTweet(final Object subject, final Object observer, final String msg) {
-        
+    public void updateTweet(final Object observer) {
+        openedUserViews.stream().forEach((each) -> {
+            System.out.println(each.getName()+ " " + observer.toString());
+            if (each.getName().equals(observer.toString())) {
+                each.setMessages(getMsgBoard(observer));
+            }
+        });
+    }
+    
+    public void addUserView(final UserView userView) {
+        openedUserViews.add(userView);
+    }
+    
+    public void removeUserView(final UserView userView) {
+        openedUserViews.remove(userView);
     }
 }
