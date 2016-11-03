@@ -163,10 +163,12 @@ public final class UserView extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         TwitterController.getInstance().removeUserView(this);
     }//GEN-LAST:event_formWindowClosed
-
-    public String getName() {
+    
+    @Override
+    public String toString() {
         return user.toString();
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFollowUser;

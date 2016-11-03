@@ -143,7 +143,7 @@ public class TwitterController {
     public void updateTweet(final Object observer) {
         openedUserViews.stream().forEach((each) -> {
             System.out.println(each.getName()+ " " + observer.toString());
-            if (each.getName().equals(observer.toString())) {
+            if (each.toString().equals(observer.toString())) {
                 each.setMessages(getMsgBoard(observer));
             }
         });
