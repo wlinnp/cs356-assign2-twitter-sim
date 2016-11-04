@@ -1,4 +1,4 @@
-package edu.cpp.cs356.assign2.Data;
+package edu.cpp.cs356.assign2.Data.Observer;
 
  /**
  * @author william

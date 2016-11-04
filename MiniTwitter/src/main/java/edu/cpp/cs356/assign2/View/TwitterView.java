@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.cpp.cs356.assign2.View;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
  * @author william
  */
 public class TwitterView extends JFrame {

@@ -8,24 +8,26 @@ import org.apache.commons.lang3.StringUtils;
  * @author william
  */
 public final class UserView extends TwitterView {
+    private final TwitterController twitterController; 
 
     public UserView(final Object user) {
         super(user);
-        System.out.println(user.toString());
+        twitterController = TwitterController.getInstance();
         initComponents();
-        setObservers(TwitterController.getInstance().getObservers(user));
-        setMessages(TwitterController.getInstance().getMsgBoard(user));
+        updateFollowingPane(twitterController.getFollowings(user));
+        updateMessagesPane(twitterController.getMsgBoard(user));
     }
+    
     /**
      * Set the followers list
      * @param model includes all followers
      */
-    public void setObservers(final DefaultListModel model) {
+    public void updateFollowingPane(final DefaultListModel model) {
         listObservers.setModel(model);
         jScrollPaneObservers.setViewportView(listObservers);
     }
     
-    public void setMessages(final DefaultListModel model) {
+    public void updateMessagesPane(final DefaultListModel model) {
         listMessages.setModel(model);
         jScrollPaneMessages.setViewportView(listMessages);
     }
@@ -48,6 +50,9 @@ public final class UserView extends TwitterView {
         btnPostTweet = new javax.swing.JButton();
         jScrollPaneMessages = new javax.swing.JScrollPane();
         listMessages = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -84,6 +89,12 @@ public final class UserView extends TwitterView {
         });
         jScrollPaneMessages.setViewportView(listMessages);
 
+        jLabel1.setText("Currently following");
+
+        jLabel2.setText("Enter tweet here");
+
+        jLabel3.setText("Message Board");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,15 +102,26 @@ public final class UserView extends TwitterView {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneObservers)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtUser)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnFollowUser, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
-                    .addComponent(btnPostTweet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneMessages))
-                .addContainerGap())
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPaneObservers)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtUser)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnFollowUser, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                            .addComponent(btnPostTweet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPaneMessages))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,18 +131,25 @@ public final class UserView extends TwitterView {
                     .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFollowUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPaneObservers, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPostTweet)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPaneMessages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
     /**
      * 1. text box is not empty
      * 2. such user exist. 
@@ -131,7 +160,7 @@ public final class UserView extends TwitterView {
         if (StringUtils.isBlank(input)) {
             displayMessage("Error", "Text Field is empty");
             return false;
-        } else if (!TwitterController.getInstance().hasUser(input)) {
+        } else if (!twitterController.hasUser(input)) {
             displayMessage("Error", "User does not exist");
             return false;
         }
@@ -140,9 +169,10 @@ public final class UserView extends TwitterView {
     
     private void btnFollowUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFollowUserActionPerformed
         if (addActionValidations(txtUser.getText())) {
-            TwitterController.getInstance().followUser(this, getUser(), txtUser.getText());            
+            twitterController.followUser(this, getUser(), txtUser.getText());            
         }
     }//GEN-LAST:event_btnFollowUserActionPerformed
+    
     private boolean postTweetActionValidations(final String input) {
         if (StringUtils.isBlank(input)) {
             displayMessage("Error", "empty Tweet");
@@ -150,20 +180,24 @@ public final class UserView extends TwitterView {
         }
         return true;
     }
+    
     private void btnPostTweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostTweetActionPerformed
         if (postTweetActionValidations(txtTweet.getText())) {
-            TwitterController.getInstance().processTweet(getUser(), txtTweet.getText());
+            twitterController.processTweet(getUser(), txtTweet.getText());
         }
     }//GEN-LAST:event_btnPostTweetActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        TwitterController.getInstance().removeUserView(this);
+        twitterController.removeUserView(this);
     }//GEN-LAST:event_formWindowClosed
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFollowUser;
     private javax.swing.JButton btnPostTweet;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPaneMessages;
     private javax.swing.JScrollPane jScrollPaneObservers;

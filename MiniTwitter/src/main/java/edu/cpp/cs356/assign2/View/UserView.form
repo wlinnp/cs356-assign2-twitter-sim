@@ -29,17 +29,33 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPaneObservers" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="txtUser" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnFollowUser" min="-2" pref="185" max="-2" attributes="0"/>
+                      <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane2" alignment="0" pref="377" max="32767" attributes="0"/>
-                  <Component id="btnPostTweet" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jScrollPaneMessages" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPaneObservers" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="txtUser" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnFollowUser" min="-2" pref="185" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPane2" alignment="0" pref="377" max="32767" attributes="0"/>
+                          <Component id="btnPostTweet" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jScrollPaneMessages" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -52,14 +68,20 @@
                   <Component id="btnFollowUser" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPaneObservers" min="-2" pref="181" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnPostTweet" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="13" max="32767" attributes="0"/>
+              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPaneMessages" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -140,5 +162,20 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Currently following"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Enter tweet here"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Message Board"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

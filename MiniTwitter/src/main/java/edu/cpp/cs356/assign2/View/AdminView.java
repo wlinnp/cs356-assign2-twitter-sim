@@ -180,6 +180,7 @@ public class AdminView extends TwitterView {
     /**
      * Validations
      * 1. User input must not be empty
+     * 2. Tree must have node selected
      * @param input
      * @return validation result
      */
@@ -191,8 +192,9 @@ public class AdminView extends TwitterView {
             return isElementSelectedInTree();
         }
     }
+    
     /**
-     * 2. User must select the base group to add to
+     * User must select the base group to add to
      * @return Validation Result
      */
     private boolean isElementSelectedInTree() {
@@ -202,6 +204,7 @@ public class AdminView extends TwitterView {
         }
         return true;
     }
+    
     /**
      * Display error or success message based on status. 
      * @param status 
@@ -219,6 +222,7 @@ public class AdminView extends TwitterView {
                 break;
         }
     }
+    
     /**
      * 1. check tree is selected.
      * 2. selected entry is user. 
@@ -226,7 +230,7 @@ public class AdminView extends TwitterView {
      */
     private boolean openUserActionValidations() {
         if (isElementSelectedInTree()) {
-            if (!twitterController.isUser(convertSelectedTreeNode())) {
+            if (!twitterController.isUserType(convertSelectedTreeNode())) {
                 displayMessage("Error", "Invalid user selection.");
                 return false;
             }
@@ -239,6 +243,7 @@ public class AdminView extends TwitterView {
     private Object convertSelectedTreeNode() {
         return ((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject();
     }
+    
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
         if (addActionValidations(txtUser.getText())) {
             addActionResult(twitterController.addUser(convertSelectedTreeNode(), txtUser.getText()));

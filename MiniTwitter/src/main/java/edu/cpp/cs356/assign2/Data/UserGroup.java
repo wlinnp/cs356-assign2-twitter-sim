@@ -6,7 +6,9 @@ import java.util.Set;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
- *
+ * Composite class of Composite pattern
+ * <p>
+ * User Group which has user & user group children
  * @author william
  */
 public class UserGroup extends UserComponent {
@@ -15,24 +17,21 @@ public class UserGroup extends UserComponent {
     public Set<UserComponent> getFollowers() {
         return followers;
     }
+    
     public UserGroup(String name) {
         super(name);
     }
 
-    /**
-     *
-     * @param newUser
-     */
     @Override
-    public void addChild(final UserComponent newUser) {
+    public void add(final UserComponent newUser) {
         followers.add(newUser);
     }
     
     @Override
-    public DefaultMutableTreeNode createEntireTree () {
+    public DefaultMutableTreeNode getEntireTree () {
         DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(this); 
         followers.stream().forEach((each) -> {
-            treeRoot.add(each.createEntireTree());
+            treeRoot.add(each.getEntireTree());
         });
         return treeRoot;
     }

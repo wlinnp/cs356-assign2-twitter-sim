@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.cpp.cs356.assign2.Data.Visitor;
 
 import edu.cpp.cs356.assign2.Data.User;
@@ -12,14 +7,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
  * @author william
  */
 public class PositiveMessagePercentageVisitor implements UserComponentVisitor {
 
     private static final List<String> POSITIVE_WORDS = Arrays.asList("good", "glad", "excellent", "great", "better", "bravo");
     
-    private boolean isPositive(final String lowerCaseString) {
+    private boolean isMessagePositive(final String lowerCaseString) {
         return POSITIVE_WORDS.stream().anyMatch((each) -> lowerCaseString.contains(each));
     }
     
@@ -29,17 +23,17 @@ public class PositiveMessagePercentageVisitor implements UserComponentVisitor {
     }
     
     private double roundTwoDecimal(final double result) {
-        return Math.round(result * 100) / 100;
+        return (Math.round(result * 100)) / 100.00;
     }
     
     @Override
     public double visit(User user) {
-        if (0== user.getMessagesSize()) {
+        if (0 == user.getMessagesSize()) {
             return 0;
         }
         int totalPositiveMsg = 0;
         for (String each : user.getMessages()) {
-            if (isPositive(each.toLowerCase())) {
+            if (isMessagePositive(each.toLowerCase())) {
                 totalPositiveMsg++;
             }
         }
