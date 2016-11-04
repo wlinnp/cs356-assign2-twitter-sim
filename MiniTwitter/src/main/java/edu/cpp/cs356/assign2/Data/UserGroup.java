@@ -1,5 +1,6 @@
 package edu.cpp.cs356.assign2.Data;
 
+import edu.cpp.cs356.assign2.Data.Visitor.UserComponentVisitor;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -10,6 +11,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class UserGroup extends UserComponent {
     private final Set<UserComponent> followers = new HashSet<>();
+
+    public Set<UserComponent> getFollowers() {
+        return followers;
+    }
     public UserGroup(String name) {
         super(name);
     }
@@ -33,11 +38,11 @@ public class UserGroup extends UserComponent {
     }
     
     @Override
-    public boolean find(final UserComponent user) {
+    public boolean hasUserComponent(final UserComponent user) {
         if ((user instanceof UserGroup) && user.toString().equals(this.toString())) {
             return true;
         } else {
-            return followers.stream().anyMatch((each) -> (each.find(user)));
+            return followers.stream().anyMatch((each) -> (each.hasUserComponent(user)));
         }
     }
 
@@ -50,5 +55,10 @@ public class UserGroup extends UserComponent {
             }
         }
         return null;
+    }
+
+    @Override
+    public double accept(final UserComponentVisitor userComponentVisitor) {
+        return userComponentVisitor.visit(this);
     }
 }

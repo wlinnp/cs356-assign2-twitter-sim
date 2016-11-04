@@ -1,5 +1,6 @@
 package edu.cpp.cs356.assign2.Data;
 
+import edu.cpp.cs356.assign2.Data.Visitor.UserComponentVisitor;
 import edu.cpp.cs356.assign2.Controller.TwitterController;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,7 +33,7 @@ public class User extends UserComponent implements Subject, Observer{
     }
     
     @Override
-    public boolean find(final UserComponent user) {
+    public boolean hasUserComponent(final UserComponent user) {
         return (user instanceof User) && user.toString().equals(this.toString());
     }
 
@@ -104,11 +105,25 @@ public class User extends UserComponent implements Subject, Observer{
     
     // <editor-fold defaultstate="collapsed" desc="Subject Concrete">
     private final List<String> messages = new ArrayList<>();
+
+    public List<String> getMessages() {
+        return messages;
+    }
     public void setMessage(final String msg) {
         messages.add(msg);
         notifyObservers();
     }
+    
+    public int getMessagesSize() {
+        return messages.size();
+    }
     // </editor-fold>
+
+    @Override
+    public double accept(final UserComponentVisitor userComponentVisitor) {
+        return userComponentVisitor.visit(this);
+
+    }
 
 
     

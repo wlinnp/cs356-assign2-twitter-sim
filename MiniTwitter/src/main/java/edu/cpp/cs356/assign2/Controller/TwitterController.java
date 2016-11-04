@@ -2,10 +2,14 @@ package edu.cpp.cs356.assign2.Controller;
 
 import edu.cpp.cs356.assign2.Data.Observer;
 import edu.cpp.cs356.assign2.Data.Subject;
+import edu.cpp.cs356.assign2.Data.Visitor.TotalMessagesVisitor;
+import edu.cpp.cs356.assign2.Data.Visitor.TotalUserGroupVisitor;
+import edu.cpp.cs356.assign2.Data.Visitor.TotalUserVisitor;
 import edu.cpp.cs356.assign2.View.AdminView;
 import edu.cpp.cs356.assign2.Data.User;
 import edu.cpp.cs356.assign2.Data.UserComponent;
 import edu.cpp.cs356.assign2.Data.UserGroup;
+import edu.cpp.cs356.assign2.Data.Visitor.PositiveMessagePercentageVisitor;
 import edu.cpp.cs356.assign2.View.UserView;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +95,7 @@ public class TwitterController {
         } else if (!(userGroup instanceof UserGroup)) {
             return 2;
         } else if (userName instanceof UserGroup && userName.toString().equals(ROOT.toString()) 
-                || ROOT.find(userName)) {
+                || ROOT.hasUserComponent(userName)) {
             return 3;
         }
         ((UserGroup) userGroup).addChild(userName);
@@ -157,5 +161,21 @@ public class TwitterController {
     
     public void removeUserView(final UserView userView) {
         openedUserViews.remove(userView);
+    }
+    
+    public String getTotalUser(final Object user) {
+        return Double.toString(((UserComponent)user).accept(new TotalUserVisitor()));
+    }
+    
+    public String getTotalUserGroup(final Object user) {
+        return Double.toString(((UserComponent)user).accept(new TotalUserGroupVisitor()));
+    }
+    
+    public String getTotalMessages(final Object user) {
+        return Double.toString(((UserComponent)user).accept(new TotalMessagesVisitor()));
+    }
+    
+    public String getPositiveMessagePercentage(final Object user) {
+        return Double.toString(((UserComponent)user).accept(new PositiveMessagePercentageVisitor()));
     }
 }

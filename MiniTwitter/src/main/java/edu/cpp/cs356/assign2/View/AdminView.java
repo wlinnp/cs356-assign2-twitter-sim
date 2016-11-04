@@ -14,9 +14,11 @@ public class AdminView extends TwitterView {
      * Creates new form AdminView
      */
     private static AdminView INSTANCE;
+    private final TwitterController twitterController; 
     
     private AdminView() {
         super("Admin Control");
+        twitterController = TwitterController.getInstance();
         initComponents();
     }
     
@@ -224,7 +226,7 @@ public class AdminView extends TwitterView {
      */
     private boolean openUserActionValidations() {
         if (isElementSelectedInTree()) {
-            if (!TwitterController.getInstance().isUser(((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject())) {
+            if (!twitterController.isUser(convertSelectedTreeNode())) {
                 displayMessage("Error", "Invalid user selection.");
                 return false;
             }
@@ -233,42 +235,54 @@ public class AdminView extends TwitterView {
         }
         return true;
     }
+    
+    private Object convertSelectedTreeNode() {
+        return ((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject();
+    }
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
         if (addActionValidations(txtUser.getText())) {
-            addActionResult(TwitterController.getInstance().addUser(((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject(), txtUser.getText()));
+            addActionResult(twitterController.addUser(convertSelectedTreeNode(), txtUser.getText()));
         }
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     private void btnAddGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGroupActionPerformed
         if (addActionValidations(txtGrp.getText())) {
-            addActionResult(TwitterController.getInstance().addUserGroup(((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject(), txtGrp.getText()));
+            addActionResult(twitterController.addUserGroup(convertSelectedTreeNode(), txtGrp.getText()));
         }
     }//GEN-LAST:event_btnAddGroupActionPerformed
 
     private void btnOpenUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenUserActionPerformed
         if (openUserActionValidations()) {
-            Object selected = ((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject();
+            Object selected = convertSelectedTreeNode();
             UserView user = new UserView(selected);
-            TwitterController.getInstance().addUserView(user);
+            twitterController.addUserView(user);
             user.setTitle(selected.toString());
             user.setVisible(true);
         }
     }//GEN-LAST:event_btnOpenUserActionPerformed
 
     private void btnShowTotalUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTotalUserActionPerformed
-        System.out.println("Show User Total");
+        if (isElementSelectedInTree()) {
+            displayMessage("Total User", "Total Number of Users under selected Node is " + twitterController.getTotalUser(convertSelectedTreeNode()));
+        }
     }//GEN-LAST:event_btnShowTotalUserActionPerformed
 
     private void btnShowTotalGrpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTotalGrpActionPerformed
-        System.out.println("Show Group Total");
+        if (isElementSelectedInTree()) {
+            displayMessage("Total User Group", "Total Number of Users under selected Node is " + twitterController.getTotalUserGroup(convertSelectedTreeNode()));
+        }
     }//GEN-LAST:event_btnShowTotalGrpActionPerformed
 
     private void btnShowTotalMsgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTotalMsgActionPerformed
-        System.out.println("Show Msg Total");// TODO add your handling code here:
+        if (isElementSelectedInTree()) {
+            displayMessage("Total Messages", "Total Number of Messages under selected Node is " + twitterController.getTotalMessages(convertSelectedTreeNode()));
+        }
     }//GEN-LAST:event_btnShowTotalMsgActionPerformed
 
     private void btnShowPercentagePositiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowPercentagePositiveActionPerformed
-        System.out.println("Show Positive Percentage");
+        if (isElementSelectedInTree()) {
+            displayMessage("Total Messages", "Total Number of Messages under selected Node is " + twitterController.getPositiveMessagePercentage(convertSelectedTreeNode()));
+        }
     }//GEN-LAST:event_btnShowPercentagePositiveActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
