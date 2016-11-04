@@ -13,17 +13,14 @@ public class UserGroup extends UserComponent {
     public UserGroup(String name) {
         super(name);
     }
-    @Override
-    public void add(final UserComponent newUser) {
-        followers.add(newUser);
-    }
 
+    /**
+     *
+     * @param newUser
+     */
     @Override
-    public void get() {
-        System.out.println("Group: " + name);
-        followers.stream().forEach((each) -> {
-            each.get();
-        });
+    public void addChild(final UserComponent newUser) {
+        followers.add(newUser);
     }
     
     @Override

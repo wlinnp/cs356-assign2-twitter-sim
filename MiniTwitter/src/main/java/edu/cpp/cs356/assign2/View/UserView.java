@@ -7,14 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * @author william
  */
-public final class UserView extends javax.swing.JFrame {
-    private final Object user;
-    /**
-     * Creates new form User
-     * @param user
-     */
+public final class UserView extends TwitterView {
+
     public UserView(final Object user) {
-        this.user = user;
+        super(user);
         System.out.println(user.toString());
         initComponents();
         setObservers(TwitterController.getInstance().getObservers(user));
@@ -133,10 +129,10 @@ public final class UserView extends javax.swing.JFrame {
      */
     private boolean addActionValidations(final String input) {
         if (StringUtils.isBlank(input)) {
-            Utils.showMsg("Error", "Text Field is empty");
+            displayMessage("Error", "Text Field is empty");
             return false;
         } else if (!TwitterController.getInstance().hasUser(input)) {
-            Utils.showMsg("Error", "User does not exist");
+            displayMessage("Error", "User does not exist");
             return false;
         }
         return true;
@@ -144,31 +140,26 @@ public final class UserView extends javax.swing.JFrame {
     
     private void btnFollowUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFollowUserActionPerformed
         if (addActionValidations(txtUser.getText())) {
-            TwitterController.getInstance().followUser(this, user, txtUser.getText());            
+            TwitterController.getInstance().followUser(this, getUser(), txtUser.getText());            
         }
     }//GEN-LAST:event_btnFollowUserActionPerformed
     private boolean postTweetActionValidations(final String input) {
         if (StringUtils.isBlank(input)) {
-            Utils.showMsg("Error", "empty Tweet");
+            displayMessage("Error", "empty Tweet");
             return false;
         }
         return true;
     }
     private void btnPostTweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostTweetActionPerformed
         if (postTweetActionValidations(txtTweet.getText())) {
-            TwitterController.getInstance().processTweet(user, txtTweet.getText());
+            TwitterController.getInstance().processTweet(getUser(), txtTweet.getText());
         }
     }//GEN-LAST:event_btnPostTweetActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         TwitterController.getInstance().removeUserView(this);
     }//GEN-LAST:event_formWindowClosed
-    
-    @Override
-    public String toString() {
-        return user.toString();
-    }
-    
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFollowUser;

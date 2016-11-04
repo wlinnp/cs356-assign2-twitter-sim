@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * @author william
  */
-public class AdminView extends javax.swing.JFrame {
+public class AdminView extends TwitterView {
 
     /**
      * Creates new form AdminView
@@ -16,6 +16,7 @@ public class AdminView extends javax.swing.JFrame {
     private static AdminView INSTANCE;
     
     private AdminView() {
+        super("Admin Control");
         initComponents();
     }
     
@@ -182,7 +183,7 @@ public class AdminView extends javax.swing.JFrame {
      */
     private boolean addActionValidations(final String input) {
         if (StringUtils.isBlank(input)) {
-            Utils.showMsg("Error", "Text Field is empty");
+            displayMessage("Error", "Text Field is empty");
             return false;
         } else {
             return isElementSelectedInTree();
@@ -194,7 +195,7 @@ public class AdminView extends javax.swing.JFrame {
      */
     private boolean isElementSelectedInTree() {
         if (treeAllUsers.getLastSelectedPathComponent() == null) {
-            Utils.showMsg("Error", "Parent User Group is not selected.");
+            displayMessage("Error", "Parent User Group is not selected.");
             return false;
         }
         return true;
@@ -205,14 +206,14 @@ public class AdminView extends javax.swing.JFrame {
      */
     private void addActionResult(final int status) {
         switch (status) {
-            case 1: Utils.showMsg("Error", "Choose parent user group");
+            case 1: displayMessage("Error", "Choose parent user group");
                 break;
-            case 2: Utils.showMsg("Error", "Invalid chosen user group");
+            case 2: displayMessage("Error", "Invalid chosen user group");
                 break;
-            case 3: Utils.showMsg("Error", "Name & Type already existed");
+            case 3: displayMessage("Error", "Name & Type already existed");
                 break;
             case 0: txtUser.setText("");
-                Utils.showMsg("Success", "Added!");
+                displayMessage("Success", "Added!");
                 break;
         }
     }
@@ -224,7 +225,7 @@ public class AdminView extends javax.swing.JFrame {
     private boolean openUserActionValidations() {
         if (isElementSelectedInTree()) {
             if (!TwitterController.getInstance().isUser(((DefaultMutableTreeNode)treeAllUsers.getLastSelectedPathComponent()).getUserObject())) {
-                Utils.showMsg("Error", "Invalid user selection.");
+                displayMessage("Error", "Invalid user selection.");
                 return false;
             }
         } else {

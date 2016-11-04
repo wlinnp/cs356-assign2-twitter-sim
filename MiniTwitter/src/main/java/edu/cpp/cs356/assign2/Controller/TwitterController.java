@@ -41,9 +41,9 @@ public class TwitterController {
         UserComponent cs356 = new UserGroup("cs356");
         UserComponent william = new User("William");
         
-        ROOT.add(admin);
-        ROOT.add(cs356);
-        cs356.add(william);
+        ROOT.addChild(admin);
+        ROOT.addChild(cs356);
+        cs356.addChild(william);
     }
     /**
      * Constructor
@@ -51,8 +51,10 @@ public class TwitterController {
     private TwitterController() {
         init();
         SwingUtilities.invokeLater(() -> {
-            AdminView.getInstance().setTree(ROOT.createEntireTree());
-            AdminView.getInstance().setVisible(true);
+            AdminView admin = AdminView.getInstance();
+            admin.setTree(ROOT.createEntireTree());
+            admin.setTitle(admin.toString());
+            admin.setVisible(true);
         });
     }
     /**
@@ -78,7 +80,7 @@ public class TwitterController {
      * @param userGroup
      * @param userName abstract type
      * @return status
-     * 1 = empty user group
+     * 1 = empty user group 
      * 2 = user group is not valid type
      * 3 = user already exists
      * 0 = success; 
@@ -92,7 +94,7 @@ public class TwitterController {
                 || ROOT.find(userName)) {
             return 3;
         }
-        ((UserGroup) userGroup).add(userName);
+        ((UserGroup) userGroup).addChild(userName);
         AdminView.getInstance().setTree(ROOT.createEntireTree());
         return 0;
     }

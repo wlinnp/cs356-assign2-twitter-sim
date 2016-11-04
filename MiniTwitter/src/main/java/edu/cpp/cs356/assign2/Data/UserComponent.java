@@ -14,8 +14,8 @@ public abstract class UserComponent {
         this.name = name;
     }
     
-    public abstract void add(final UserComponent newUser);
-    public abstract void get();
+    public abstract void addChild(final UserComponent newUser);
+
     public abstract DefaultMutableTreeNode createEntireTree ();
     public abstract boolean find(final UserComponent user);
     public abstract UserComponent findUserWithName(final String user);

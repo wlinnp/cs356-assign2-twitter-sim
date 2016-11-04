@@ -22,12 +22,8 @@ public class User extends UserComponent implements Subject, Observer{
     }
 
     @Override
-    public void add(final UserComponent newUser) {
+    public void addChild(final UserComponent newUser) {
         throw new UnsupportedOperationException("Cannot add user under user");
-    }
-    @Override
-    public void get() {
-        System.out.println(name);
     }
 
     @Override
@@ -49,6 +45,8 @@ public class User extends UserComponent implements Subject, Observer{
     public UserComponent findUserWithName(String user) {
         return user.equals(this.name) ? this : null;
     }
+    // for visitor, should have one method call accept
+    // visitor have 2, user & group. 
     
     public String getLastMsg() {
         if (messages.isEmpty()) {
