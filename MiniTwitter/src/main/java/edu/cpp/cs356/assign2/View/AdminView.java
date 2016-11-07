@@ -1,5 +1,6 @@
 package edu.cpp.cs356.assign2.View;
 
+import edu.cpp.cs356.assign2.Controller.DisplayMessage;
 import edu.cpp.cs356.assign2.Controller.TwitterAdminController;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -209,17 +210,10 @@ public class AdminView extends TwitterView {
      * Display error or success message based on status. 
      * @param status 
      */
-    private void addActionResult(final int status) {
-        switch (status) {
-            case 1: displayMessage(DisplayMessage.NO_TREE_SELECTION);
-                break;
-            case 2: displayMessage(DisplayMessage.WRONG_TREE_SELECTION);
-                break;
-            case 3: displayMessage(DisplayMessage.DUPLICATE_USER);
-                break;
-            case 0: txtUser.setText("");
-                displayMessage(DisplayMessage.ADDED_USER);
-                break;
+    private void addActionResult(final DisplayMessage status) {
+        displayMessage(status);
+        if (status.equals(DisplayMessage.ADDED_USER)) {
+            txtUser.setText("");
         }
     }
     

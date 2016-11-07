@@ -69,7 +69,7 @@ public class TwitterAdminController extends TwitterController {
      * @param userName  name of the new user
      * @return status of result.
      */
-    public int addUser(final Object userGroup, final String userName) {
+    public DisplayMessage addUser(final Object userGroup, final String userName) {
         return add(userGroup, new User(userName));
     }
     
@@ -79,7 +79,7 @@ public class TwitterAdminController extends TwitterController {
      * @param userName  name of the new user group
      * @return status of result.
      */
-    public int addUserGroup(final Object userGroup, final String userName) {
+    public DisplayMessage addUserGroup(final Object userGroup, final String userName) {
         return add(userGroup, new UserGroup(userName));
     }
     
@@ -99,18 +99,18 @@ public class TwitterAdminController extends TwitterController {
      * 3 = user already exists
      * 0 = success; 
      */
-    private int add(final Object userGroup, final UserComponent userName) {
+    private DisplayMessage add(final Object userGroup, final UserComponent userName) {
         if (userGroup == null) {
-            return 1;
+            return DisplayMessage.NO_TREE_SELECTION;
         } else if (!(userGroup instanceof UserGroup)) {
-            return 2;
+            return DisplayMessage.WRONG_TREE_SELECTION;
         } else if (userName instanceof UserGroup && userName.toString().equals(getRoot().toString()) 
                 || getRoot().hasUserComponent(userName)) {
-            return 3;
+            return DisplayMessage.DUPLICATE_USER;
         }
         ((UserGroup) userGroup).add(userName);
         AdminView.getInstance().setTree(getRoot().getEntireTree());
-        return 0;
+        return DisplayMessage.ADDED_USER;
     }
     
     public String getTotalUser(final Object user) {

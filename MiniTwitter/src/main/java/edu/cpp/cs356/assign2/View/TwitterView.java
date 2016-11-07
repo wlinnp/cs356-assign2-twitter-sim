@@ -1,5 +1,6 @@
 package edu.cpp.cs356.assign2.View;
 
+import edu.cpp.cs356.assign2.Controller.DisplayMessage;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 

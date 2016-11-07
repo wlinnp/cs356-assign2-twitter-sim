@@ -1,4 +1,4 @@
-package edu.cpp.cs356.assign2.View;
+package edu.cpp.cs356.assign2.Controller;
 
 /**
  *

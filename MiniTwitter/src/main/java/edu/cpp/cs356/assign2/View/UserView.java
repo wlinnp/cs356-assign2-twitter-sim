@@ -1,5 +1,6 @@
 package edu.cpp.cs356.assign2.View;
 
+import edu.cpp.cs356.assign2.Controller.DisplayMessage;
 import edu.cpp.cs356.assign2.Controller.TwitterUserViewController;
 import javax.swing.DefaultListModel;
 import org.apache.commons.lang3.StringUtils;
