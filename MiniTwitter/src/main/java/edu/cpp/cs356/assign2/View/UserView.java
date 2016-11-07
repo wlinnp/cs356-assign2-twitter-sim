@@ -1,6 +1,6 @@
 package edu.cpp.cs356.assign2.View;
 
-import edu.cpp.cs356.assign2.Controller.TwitterController;
+import edu.cpp.cs356.assign2.Controller.TwitterUserViewController;
 import javax.swing.DefaultListModel;
 import org.apache.commons.lang3.StringUtils;
 
@@ -8,12 +8,13 @@ import org.apache.commons.lang3.StringUtils;
  * @author william
  */
 public final class UserView extends TwitterView {
-    private final TwitterController twitterController; 
+    private final TwitterUserViewController twitterController; 
 
     public UserView(final Object user) {
         super(user);
-        twitterController = TwitterController.getInstance();
+        twitterController = TwitterUserViewController.getInstance();
         initComponents();
+        twitterController.addUserView(this);
         updateFollowingPane(twitterController.getFollowings(user));
         updateMessagesPane(twitterController.getMsgBoard(user));
     }

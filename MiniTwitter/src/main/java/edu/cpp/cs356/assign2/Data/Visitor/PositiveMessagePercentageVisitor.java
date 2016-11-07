@@ -12,32 +12,12 @@ import java.util.List;
 public class PositiveMessagePercentageVisitor implements UserComponentVisitor {
 
     private static final List<String> POSITIVE_WORDS = Arrays.asList("good", "glad", "excellent", "great", "better", "bravo");
-    
-    private boolean isMessagePositive(final String lowerCaseString) {
-        return POSITIVE_WORDS.stream().anyMatch((each) -> lowerCaseString.contains(each));
-    }
-    
-    private double calculatePercentage(final double totalMsg, final int totalPositiveMsg) {
-        double result = (totalPositiveMsg / totalMsg) * 100;
-        return result;
-    }
-    
-    private double roundTwoDecimal(final double result) {
-        return (Math.round(result * 100)) / 100.00;
-    }
-    
+     
     @Override
     public double visit(User user) {
         if (0 == user.getMessagesSize()) {
             return 0;
-        }
-        int totalPositiveMsg = 0;
-        for (String each : user.getMessages()) {
-            if (isMessagePositive(each.toLowerCase())) {
-                totalPositiveMsg++;
-            }
-        }
-        return roundTwoDecimal(calculatePercentage(user.getMessagesSize(), totalPositiveMsg));
+        }return roundTwoDecimal(calculatePercentage(user.getMessagesSize(), getTotalPositiveMsg(user)));
     }
 
     @Override
@@ -46,11 +26,36 @@ public class PositiveMessagePercentageVisitor implements UserComponentVisitor {
         if (0 == totalMsg) {
             return 0;
         }
+        return roundTwoDecimal(calculatePercentage(totalMsg, getTotalPositiveMsg(userGroup)));
+    }
+    
+    private double calculatePercentage(final double totalMsg, final double totalPositiveMsg) {
+        return (totalPositiveMsg / totalMsg) * 100;
+    }
+    
+    private double roundTwoDecimal(final double result) {
+        return (Math.round(result * 100)) / 100.00;
+    }
+    
+    private double getTotalPositiveMsg(final User user) {
+        int totalPositiveMsg = 0;
+        for (String each : user.getMessages()) {
+            if (isMessagePositive(each.toLowerCase())) {
+                totalPositiveMsg++;
+            }
+        }
+        return totalPositiveMsg;
+    }
+    
+    private double getTotalPositiveMsg(final UserGroup userGroup) {
         int totalPositiveMsg = 0;
         for (UserComponent each : userGroup.getFollowers()) {
-            totalPositiveMsg += (each instanceof User) ? 1 : visit((UserGroup)each);
+            totalPositiveMsg += (each instanceof User) ? getTotalPositiveMsg((User)each) : getTotalPositiveMsg((UserGroup)each);
         }
-        return roundTwoDecimal(calculatePercentage(totalMsg, totalPositiveMsg));
+        return totalPositiveMsg;
     }
-
+    
+    private boolean isMessagePositive(final String lowerCaseString) {
+        return POSITIVE_WORDS.stream().anyMatch((each) -> lowerCaseString.contains(each));
+    }
 }

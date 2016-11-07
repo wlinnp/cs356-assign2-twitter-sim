@@ -1,6 +1,6 @@
 package edu.cpp.cs356.assign2.View;
 
-import edu.cpp.cs356.assign2.Controller.TwitterController;
+import edu.cpp.cs356.assign2.Controller.TwitterAdminController;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.apache.commons.lang3.StringUtils;
@@ -14,11 +14,11 @@ public class AdminView extends TwitterView {
      * Creates new form AdminView
      */
     private static AdminView INSTANCE;
-    private final TwitterController twitterController; 
+    private final TwitterAdminController twitterController; 
     
     private AdminView() {
         super("Admin Control");
-        twitterController = TwitterController.getInstance();
+        twitterController = TwitterAdminController.getInstance();
         initComponents();
     }
     
@@ -260,7 +260,6 @@ public class AdminView extends TwitterView {
         if (openUserActionValidations()) {
             Object selected = convertSelectedTreeNode();
             UserView user = new UserView(selected);
-            twitterController.addUserView(user);
             user.setTitle(selected.toString());
             user.setVisible(true);
         }
@@ -286,7 +285,7 @@ public class AdminView extends TwitterView {
 
     private void btnShowPercentagePositiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowPercentagePositiveActionPerformed
         if (isElementSelectedInTree()) {
-            displayMessage("Total Messages", "Total Number of Messages under selected Node is " + twitterController.getPositiveMessagePercentage(convertSelectedTreeNode()));
+            displayMessage("Total Messages", "Percentage of Positive Messages under selected Node is " + twitterController.getPositiveMessagePercentage(convertSelectedTreeNode()));
         }
     }//GEN-LAST:event_btnShowPercentagePositiveActionPerformed
 

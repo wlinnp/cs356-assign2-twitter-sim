@@ -22,6 +22,4 @@ public class TotalUserVisitor implements UserComponentVisitor {
         }
         return total;
     }
-
-
 }

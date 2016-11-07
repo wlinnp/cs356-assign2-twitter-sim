@@ -3,7 +3,8 @@ package edu.cpp.cs356.assign2.Data;
 import edu.cpp.cs356.assign2.Data.Observer.Observer;
 import edu.cpp.cs356.assign2.Data.Observer.Subject;
 import edu.cpp.cs356.assign2.Data.Visitor.UserComponentVisitor;
-import edu.cpp.cs356.assign2.Controller.TwitterController;
+import edu.cpp.cs356.assign2.Controller.TwitterAdminController;
+import edu.cpp.cs356.assign2.Controller.TwitterUserViewController;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -78,7 +79,7 @@ public class User extends UserComponent implements Subject, Observer{
                 msg = DEFAULT_MESSAGE;
             }
             msgBoard.add(new ImmutablePair(user.toString(), msg));
-            TwitterController.getInstance().updateTweet(this, subject);
+            TwitterUserViewController.getInstance().updateTweet(this, subject);
         }
     }
     

@@ -1,5 +1,5 @@
 package edu.cpp.cs356.assign2;
-import edu.cpp.cs356.assign2.Controller.TwitterController;
+import edu.cpp.cs356.assign2.Controller.TwitterAdminController;
 
 /**Entry Point to the application
  * @author william
@@ -7,6 +7,6 @@ import edu.cpp.cs356.assign2.Controller.TwitterController;
 public class Main {
 
     public static void main(String[] args) {
-        TwitterController.getInstance();
+        TwitterAdminController.getInstance();
     }
 }
