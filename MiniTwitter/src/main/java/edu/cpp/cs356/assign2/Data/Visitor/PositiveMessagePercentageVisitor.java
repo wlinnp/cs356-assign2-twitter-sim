@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class PositiveMessagePercentageVisitor implements UserComponentVisitor {
 
-    private static final List<String> POSITIVE_WORDS = Arrays.asList("good", "glad", "excellent", "great", "better", "bravo");
+    private static final List<String> POSITIVE_WORDS = Arrays.asList("good", "glad", "excellent", "great", "better", "bravo", "nice", "perfect", "terrific");
      
     @Override
     public double visit(User user) {
