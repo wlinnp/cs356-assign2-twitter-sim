@@ -8,7 +8,7 @@ public enum DisplayMessage {
     EMPTY_TEXT_FIELD ("Error", "Text Field is empty"), 
     NO_TREE_SELECTION ("Error", "Parent User Group is not selected."),
     WRONG_TREE_SELECTION ("Error", "Parent User Group is not selected."),
-    DUPLICATE_USER ("Error", "Parent User Group is not selected."), 
+    DUPLICATE_USER ("Error", "Already exists! Choose a different name."), 
     WRONG_TYPE ("Error", "Invalid user selection."), 
     NO_USER ("Error", "User does not exist."), 
     TOTAL_USER ("Total User", "Total Number of Users under selected Node is "), 
