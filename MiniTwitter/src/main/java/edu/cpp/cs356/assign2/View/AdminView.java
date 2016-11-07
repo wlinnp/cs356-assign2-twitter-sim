@@ -186,7 +186,7 @@ public class AdminView extends TwitterView {
      */
     private boolean addActionValidations(final String input) {
         if (StringUtils.isBlank(input)) {
-            displayMessage("Error", "Text Field is empty");
+            displayMessage(DisplayMessage.EMPTY_TEXT_FIELD);
             return false;
         } else {
             return isElementSelectedInTree();
@@ -199,7 +199,7 @@ public class AdminView extends TwitterView {
      */
     private boolean isElementSelectedInTree() {
         if (treeAllUsers.getLastSelectedPathComponent() == null) {
-            displayMessage("Error", "Parent User Group is not selected.");
+            displayMessage(DisplayMessage.NO_TREE_SELECTION);
             return false;
         }
         return true;
@@ -211,14 +211,14 @@ public class AdminView extends TwitterView {
      */
     private void addActionResult(final int status) {
         switch (status) {
-            case 1: displayMessage("Error", "Choose parent user group");
+            case 1: displayMessage(DisplayMessage.NO_TREE_SELECTION);
                 break;
-            case 2: displayMessage("Error", "Invalid chosen user group");
+            case 2: displayMessage(DisplayMessage.WRONG_TREE_SELECTION);
                 break;
-            case 3: displayMessage("Error", "Name & Type already existed");
+            case 3: displayMessage(DisplayMessage.DUPLICATE_USER);
                 break;
             case 0: txtUser.setText("");
-                displayMessage("Success", "Added!");
+                displayMessage(DisplayMessage.ADDED_USER);
                 break;
         }
     }
@@ -231,7 +231,7 @@ public class AdminView extends TwitterView {
     private boolean openUserActionValidations() {
         if (isElementSelectedInTree()) {
             if (!twitterController.isUserType(convertSelectedTreeNode())) {
-                displayMessage("Error", "Invalid user selection.");
+                displayMessage(DisplayMessage.WRONG_TYPE);
                 return false;
             }
         } else {
@@ -267,25 +267,25 @@ public class AdminView extends TwitterView {
 
     private void btnShowTotalUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTotalUserActionPerformed
         if (isElementSelectedInTree()) {
-            displayMessage("Total User", "Total Number of Users under selected Node is " + twitterController.getTotalUser(convertSelectedTreeNode()));
+            displayMessage(DisplayMessage.TOTAL_USER, twitterController.getTotalUser(convertSelectedTreeNode()));
         }
     }//GEN-LAST:event_btnShowTotalUserActionPerformed
 
     private void btnShowTotalGrpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTotalGrpActionPerformed
         if (isElementSelectedInTree()) {
-            displayMessage("Total User Group", "Total Number of Users under selected Node is " + twitterController.getTotalUserGroup(convertSelectedTreeNode()));
+            displayMessage(DisplayMessage.TOTAL_GROUP, twitterController.getTotalUserGroup(convertSelectedTreeNode()));
         }
     }//GEN-LAST:event_btnShowTotalGrpActionPerformed
 
     private void btnShowTotalMsgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTotalMsgActionPerformed
         if (isElementSelectedInTree()) {
-            displayMessage("Total Messages", "Total Number of Messages under selected Node is " + twitterController.getTotalMessages(convertSelectedTreeNode()));
+            displayMessage(DisplayMessage.TOTAL_MESSAGE, twitterController.getTotalMessages(convertSelectedTreeNode()));
         }
     }//GEN-LAST:event_btnShowTotalMsgActionPerformed
 
     private void btnShowPercentagePositiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowPercentagePositiveActionPerformed
         if (isElementSelectedInTree()) {
-            displayMessage("Total Messages", "Percentage of Positive Messages under selected Node is " + twitterController.getPositiveMessagePercentage(convertSelectedTreeNode()));
+            displayMessage(DisplayMessage.TOTAL_PERCENTAGE, twitterController.getPositiveMessagePercentage(convertSelectedTreeNode()));
         }
     }//GEN-LAST:event_btnShowPercentagePositiveActionPerformed
 

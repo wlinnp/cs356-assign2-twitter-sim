@@ -159,10 +159,10 @@ public final class UserView extends TwitterView {
      */
     private boolean addActionValidations(final String input) {
         if (StringUtils.isBlank(input)) {
-            displayMessage("Error", "Text Field is empty");
+            displayMessage(DisplayMessage.EMPTY_TEXT_FIELD);
             return false;
         } else if (!twitterController.hasUser(input)) {
-            displayMessage("Error", "User does not exist");
+            displayMessage(DisplayMessage.NO_USER);
             return false;
         }
         return true;
@@ -176,7 +176,7 @@ public final class UserView extends TwitterView {
     
     private boolean postTweetActionValidations(final String input) {
         if (StringUtils.isBlank(input)) {
-            displayMessage("Error", "empty Tweet");
+            displayMessage(DisplayMessage.EMPTY_TEXT_FIELD);
             return false;
         }
         return true;

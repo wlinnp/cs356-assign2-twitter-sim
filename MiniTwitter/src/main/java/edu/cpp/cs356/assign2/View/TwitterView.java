@@ -21,7 +21,18 @@ public class TwitterView extends JFrame {
         return user.toString();
     }
     
-    protected void displayMessage(final String title, final String msg) {
+    protected void displayMessage(final DisplayMessage displayMsg) {
+        display(displayMsg.getTitle(), displayMsg.getMessage());
+    }
+    
+        
+    protected void displayMessage(final DisplayMessage displayMsg, final String appendMessage) {
+        display(displayMsg.getTitle(), displayMsg.getMessage() + appendMessage);
+
+    }
+    
+    private void display(final String title, final String msg) {
         JOptionPane.showMessageDialog(null, msg, title, JOptionPane.PLAIN_MESSAGE);
+
     }
 }

@@ -3,7 +3,6 @@ package edu.cpp.cs356.assign2.Data;
 import edu.cpp.cs356.assign2.Data.Observer.Observer;
 import edu.cpp.cs356.assign2.Data.Observer.Subject;
 import edu.cpp.cs356.assign2.Data.Visitor.UserComponentVisitor;
-import edu.cpp.cs356.assign2.Controller.TwitterAdminController;
 import edu.cpp.cs356.assign2.Controller.TwitterUserViewController;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,7 +24,7 @@ public class User extends UserComponent implements Subject, Observer{
     // <editor-fold defaultstate="collapsed" desc="User">
     public User(final String name) {
         super(name);
-        this.attach(this);
+        attach(this);
     }
 
     @Override
